@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const adminSchema = new mongoose.Schema({
   username: {
@@ -29,5 +30,21 @@ const adminSchema = new mongoose.Schema({
 {
   timestamps: true
 });
+
+adminSchema.pre('save', async function(next){
+  const admin = this;
+
+  if(!admin.isModified('password')){
+    next();
+  }
+
+  try {
+    const saltRound = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(this.password, saltRound);
+    this.password = hashPassword;
+  } catch (error) {
+    next(error);
+  }
+})
 
 export const Admin = mongoose.model("Admin", adminSchema);

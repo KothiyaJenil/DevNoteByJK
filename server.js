@@ -3,11 +3,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import { adminRoute } from './router/admin.route.js';
+import morgan from 'morgan';
 
 // variables and middleware
 dotenv.config({ quiet: true });
 const app = express();
 app.use(express.json()) // parse and work with json data
+app.use(morgan('dev')); // HTTP req log 
 const PORT = process.env.PORT;
 
 
@@ -19,4 +21,5 @@ app.use("/admin-auth", adminRoute);
 connectDB().then(() =>
   app.listen(PORT, () => {
     console.log(`server start\nhttp://localhost:${PORT}`);
-  }))
+  })
+)

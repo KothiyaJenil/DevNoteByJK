@@ -5,4 +5,9 @@
 - connecting database
 - set the admin routes
   - create admin model
-  - admin signup routes
+  - signup routes
+  - signup controller
+  - zod validation
+  - validator middleware
+  - error middleware
+  - password hashing
